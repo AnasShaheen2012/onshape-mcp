@@ -94,6 +94,8 @@ Ask Claude:
 
 If you see your documents, you're done. 🎉
 
+> The very first start takes 10–20 seconds while `uv` downloads the server; after that it starts instantly from cache.
+
 ---
 
 ## Things to ask Claude
@@ -148,7 +150,8 @@ It prints `OK - connected to … as <your name>` or explains what's wrong.
 | `HTTP 401` | The key is wrong or was deleted. Make a new one in the dev portal. |
 | `HTTP 403` on edit or export | You only have view access to that document, e.g. a team document shared read-only. Use a document you own, or ask the owner for Edit/Export permission. |
 | `HTTP 429` | Rate limited. Wait a bit. Onshape also caps yearly API calls per plan; check usage in the dev portal. |
-| Server doesn't appear in Claude | Make sure `uvx --version` works in a terminal, then fully quit and reopen Claude. |
+| Server doesn't appear in Claude | Make sure `uvx --version` works in a terminal, then fully quit and reopen Claude. If you installed `uv` while Claude was open, Claude won't see it until it restarts. |
+| Server shows as "failed" the first time | The first launch downloads the server and can exceed the client's startup timeout. Run the `--check` command above once to pre-download it, then restart Claude. |
 | Enterprise account | Add `ONSHAPE_BASE_URL=https://yourcompany.onshape.com` to `env`. |
 
 ---
