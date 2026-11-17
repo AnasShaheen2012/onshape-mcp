@@ -1,0 +1,38 @@
+[project]
+name = "onshape-mcp"
+dynamic = ["version"]
+description = "MCP server that lets Claude (and other MCP clients) read, edit, render and export Onshape CAD models"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+keywords = ["onshape", "mcp", "cad", "claude", "model-context-protocol"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Computer Aided Design",
+]
+dependencies = [
+    "mcp>=2.3,<3",
+    "httpx>=0.27",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.urls]
+Homepage = "https://github.com/AnasShaheen2012/onshape-mcp"
+Issues = "https://github.com/AnasShaheen2012/onshape-mcp/issues"
+
+[project.scripts]
+onshape-mcp = "onshape_mcp.server:main"
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.dynamic]
+version = { attr = "onshape_mcp.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
