@@ -1,0 +1,39 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.AnasShaheen2012/onshape-mcp",
+  "description": "Let Claude see, edit, render and export your Onshape CAD models. 5-minute setup.",
+  "repository": {
+    "url": "https://github.com/AnasShaheen2012/onshape-mcp",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "onshape-mcp-server",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "ONSHAPE_ACCESS_KEY",
+          "description": "Onshape API access key (create at https://dev-portal.onshape.com/keys)",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "ONSHAPE_SECRET_KEY",
+          "description": "Onshape API secret key",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "ONSHAPE_BASE_URL",
+          "description": "Only for Onshape Enterprise, e.g. https://yourcompany.onshape.com",
+          "isRequired": false
+        }
+      ]
+    }
+  ]
+}

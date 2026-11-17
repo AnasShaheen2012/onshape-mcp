@@ -1,8 +1,12 @@
 # Onshape MCP
 
-[![CI](https://github.com/AnasShaheen2012/onshape-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/AnasShaheen2012/onshape-mcp/actions/workflows/ci.yml)
+<!-- mcp-name: io.github.AnasShaheen2012/onshape-mcp -->
 
-Connect **Claude** (or any [MCP](https://modelcontextprotocol.io) client) to your **Onshape** CAD account. Ask in plain English and Claude can:
+[![CI](https://github.com/AnasShaheen2012/onshape-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/AnasShaheen2012/onshape-mcp/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/AnasShaheen2012/onshape-mcp?style=social)](https://github.com/AnasShaheen2012/onshape-mcp/stargazers)
+
+**Talk to your CAD.** Connect **Claude** (or any [MCP](https://modelcontextprotocol.io) client) to your **Onshape** CAD account. Ask in plain English and Claude can:
 
 - 🔎 find your documents and look inside Part Studios and Assemblies
 - 🖼️ **see** your model (renders a shaded image Claude can look at)
@@ -14,6 +18,14 @@ Connect **Claude** (or any [MCP](https://modelcontextprotocol.io) client) to you
 Works with free, Education (student) and paid Onshape accounts.
 
 > Example: *"Here's my Part Studio link: … Show me an isometric view, then make the bracket 5 mm thicker and export it as STL to my Desktop."*
+
+### Why this one?
+
+- **5-minute setup**: one command, no cloning and no Python to manage.
+- **`--check` tells you exactly what's wrong**: bad key, missing key, or no permission on a document.
+- **Claude can actually see your model**: it renders shaded views and looks at them before and after edits.
+- **Made for robotics teams and students**: tested on real FTC robot CAD, with free and Education accounts treated as first-class.
+- **Small and readable**: two Python files you can audit in 10 minutes. Your keys never leave your machine except to talk to Onshape.
 
 ---
 
@@ -221,6 +233,14 @@ Extrude it. Use the sketch's `featureId` from the add response:
 - This server talks only to Onshape (`cad.onshape.com`, or your `ONSHAPE_BASE_URL`).
 - Claude can edit and delete features in documents you have edit rights to. Onshape keeps full history, so you can always restore earlier states, and saving a version before big changes is a good habit.
 
+## Contributing
+
+Issues and pull requests are welcome, especially new tools such as assembly editing, drawings, STEP export or configurations. Run `pytest` before opening a PR.
+
 ## License
 
 MIT. This is a community project and isn't affiliated with or endorsed by Onshape or PTC.
+
+---
+
+⭐ **If this saved you time, star the repo.** It helps other Onshape users find it.

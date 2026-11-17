@@ -1,16 +1,22 @@
 [project]
-name = "onshape-mcp"
+name = "onshape-mcp-server"
 dynamic = ["version"]
-description = "MCP server that lets Claude (and other MCP clients) read, edit, render and export Onshape CAD models"
+description = "Let Claude (or any MCP client) see, edit, render and export your Onshape CAD models"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.10"
-keywords = ["onshape", "mcp", "cad", "claude", "model-context-protocol"]
+keywords = ["onshape", "mcp", "mcp-server", "cad", "claude", "model-context-protocol", "frc", "ftc", "robotics", "3d-printing"]
 classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Education",
+    "Intended Audience :: Manufacturing",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.13",
     "Operating System :: OS Independent",
-    "Topic :: Scientific/Engineering :: Computer Aided Design",
+    "Topic :: Multimedia :: Graphics :: 3D Modeling",
+    "Topic :: Scientific/Engineering",
 ]
 dependencies = [
     "mcp>=2.3,<3",
@@ -25,6 +31,7 @@ Homepage = "https://github.com/AnasShaheen2012/onshape-mcp"
 Issues = "https://github.com/AnasShaheen2012/onshape-mcp/issues"
 
 [project.scripts]
+onshape-mcp-server = "onshape_mcp.server:main"
 onshape-mcp = "onshape_mcp.server:main"
 
 [build-system]

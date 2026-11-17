@@ -1,0 +1,60 @@
+name: Release
+
+# Runs when you publish a GitHub Release (e.g. tag v0.1.0).
+# 1. Builds the package and uploads it to PyPI (trusted publishing - no tokens stored).
+# 2. Publishes server.json to the official MCP Registry (GitHub OIDC - no tokens stored).
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  pypi:
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Check tag matches package and server.json versions
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          pkg=$(python -c "import re;print(re.search(r'__version__ = \"(.+?)\"', open('src/onshape_mcp/__init__.py').read()).group(1))")
+          srv=$(python -c "import json;d=json.load(open('server.json'));print(d['version'])")
+          echo "tag=$tag package=$pkg server.json=$srv"
+          [ "$tag" = "$pkg" ] && [ "$tag" = "$srv" ] || { echo "::error::Version mismatch"; exit 1; }
+      - run: pip install build && python -m build
+      - uses: pypa/gh-action-pypi-publish@release/v1
+
+  mcp-registry:
+    needs: pypi
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      MCP_PUBLISHER_VERSION: v1.8.1
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install mcp-publisher (pinned, checksum-verified)
+        run: |
+          v="${MCP_PUBLISHER_VERSION}"
+          base="https://github.com/modelcontextprotocol/registry/releases/download/${v}"
+          archive="mcp-publisher_linux_amd64.tar.gz"
+          curl --fail --location --silent --show-error -o "$archive" "$base/$archive"
+          curl --fail --location --silent --show-error -o checksums.txt "$base/registry_${v#v}_checksums.txt"
+          grep " ${archive}\$" checksums.txt | sha256sum --check -
+          tar xzf "$archive" mcp-publisher
+      - name: Wait for PyPI to serve the new version
+        run: |
+          for i in $(seq 1 30); do
+            curl -sf "https://pypi.org/pypi/onshape-mcp-server/${GITHUB_REF_NAME#v}/json" >/dev/null && exit 0
+            sleep 10
+          done
+          echo "::error::PyPI never showed the new version"; exit 1
+      - run: ./mcp-publisher login github-oidc
+      - run: ./mcp-publisher publish
