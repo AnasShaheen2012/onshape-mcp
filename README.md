@@ -1,5 +1,7 @@
 # Onshape MCP
 
+[![CI](https://github.com/AnasShaheen2012/onshape-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/AnasShaheen2012/onshape-mcp/actions/workflows/ci.yml)
+
 Connect **Claude** (or any [MCP](https://modelcontextprotocol.io) client) to your **Onshape** CAD account. Ask in plain English and Claude can:
 
 - 🔎 find your documents and look inside Part Studios and Assemblies
