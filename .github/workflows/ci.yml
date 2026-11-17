@@ -20,3 +20,19 @@ jobs:
       - run: pip install -e ".[dev]"
       - run: pytest -q
       - run: onshape-mcp --version
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t onshape-mcp .
+      - name: Server answers MCP introspection without credentials
+        run: |
+          {
+            echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"ci","version":"1"}}}'
+            echo '{"jsonrpc":"2.0","method":"notifications/initialized"}'
+            echo '{"jsonrpc":"2.0","id":2,"method":"tools/list"}'
+            sleep 5
+          } | timeout 60 docker run --rm -i onshape-mcp > out.txt || true
+          cat out.txt | head -c 600; echo
+          grep -q '"onshape_search_documents"' out.txt
